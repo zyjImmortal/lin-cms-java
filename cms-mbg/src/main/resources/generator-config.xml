@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!--数据驱动位置-->
+    <!--<classPathEntry location=""/>-->
+    <!--关联额外的配置文件-->
+    <properties resource="generator.properties"/>
+    <!--配置生成对象的上下文环境，id为唯一标识符-->
+    <!--MyBatis3、MyBatis3Simple倒是支持mybatis3以上版本，Java1.5以上的版本，支持泛型，支持注解。
+    MyBatis3和MyBatis3Simple的区别主要是：MyBatis3Simple生成的主要是简单的CRUD，而MyBatis3生成的是复杂一些的动态where语句-->
+    <!--defaultModelType属性是用来指定怎样把表对应生成bean,lat、conditional、hierarchical，默认是conditional。
+    flat模式是为一张表生成一个bean， hierarchical模式是为主键生成一个bean，BLOB类型的列生成一个bean，剩下的列生成一个bean，
+    BLOB生成的bean和剩下列生成的bean是继承之主键生成的bean。 conditional模式和hierarchical模式一样，
+    区别是conditional模式会把只有一个field bean合并到父类中-->
+    <context id="context" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="utf-8"/>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <plugin type="com.lin.cms.mbg.OverMergeablePlugin"/>
+        <commentGenerator type="com.lin.cms.mbg.CommentGenerator">
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection userId="${jdbc.userId}"
+                        password="${jdbc.password}"
+                        driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connectionURL}"/>
+
+        <!--<javaTypeResolver>-->
+        <!--<property name="forceBigDecimals" value="false"/>-->
+        <!--</javaTypeResolver>-->
+        <!--生成model包路径-->
+        <javaModelGenerator targetPackage="com.lin.cms.mbg.model" targetProject="cms-mbg/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--生成xmlmapper路径-->
+        <sqlMapGenerator targetPackage="com.lin.cms.mbg.mapper" targetProject="cms-mbg/src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--生成dao路径-->
+        <javaClientGenerator targetPackage="com.lin.cms.mbg.mapper" type="XMLMAPPER"
+                             targetProject="cms-mbg/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--<table schema="" tableName="%" enableCountByExample="false" enableDeleteByExample="false"-->
+        <!--enableSelectByExample="false" enableUpdateByExample="false"/>-->
+        <table tableName="%">
+            <!--id自动生成-->
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+    </context>
+</generatorConfiguration>

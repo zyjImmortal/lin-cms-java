@@ -1,0 +1,25 @@
+
+mybatis:
+  mapper-locations: classpath*:dao/*.xml,classpath*:com/**/mapper/*.xml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cms?useUnicode=true&characterEncoding=utf-8
+    username: zhouyajun
+    password: 12345678
+    druid:
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
+#      web-stat-filter:
+#      stat-view-servlet:
+#        login-username: druid
+#        login-password: druid
+#        exclusions: *.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*
+server:
+  port: 9999
+jwt:
+  tokenHeader: Authorization
+  secret: mySecret
+  expiration: 604800
+  tokenHead: Bearer
+debug: true
