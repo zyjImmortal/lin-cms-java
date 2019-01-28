@@ -1,5 +1,6 @@
 package com.lin.cms.admin.dto;
 
+import com.lin.cms.admin.util.JsonUtil;
 import org.springframework.validation.BindingResult;
 
 /**
@@ -46,5 +47,40 @@ public class CommonResult {
     public CommonResult validateFailed(BindingResult result) {
         validateFailed(result.getFieldError().getDefaultMessage());
         return this;
+    }
+
+    public CommonResult failed() {
+        this.code = FAILED;
+        this.message = "操作失败";
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return JsonUtil.objectToJson(this);
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

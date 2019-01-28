@@ -8,9 +8,9 @@ public class User implements Serializable {
 
     private String nickname;
 
-    private Short role;
+    private Integer role;
 
-    private Short active;
+    private Integer active;
 
     private String email;
 
@@ -42,19 +42,19 @@ public class User implements Serializable {
         this.nickname = nickname == null ? null : nickname.trim();
     }
 
-    public Short getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Short role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
-    public Short getActive() {
+    public Integer getActive() {
         return active;
     }
 
-    public void setActive(Short active) {
+    public void setActive(Integer active) {
         this.active = active;
     }
 

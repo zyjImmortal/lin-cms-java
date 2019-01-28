@@ -1,5 +1,6 @@
 package com.lin.cms.admin.service;
 
+import com.lin.cms.admin.dto.UserAdminParam;
 import com.lin.cms.mbg.model.User;
 
 /**
@@ -16,4 +17,12 @@ public interface UserAdminService {
     String login(String username, String password);
 
     User getAdminByUsername(String username);
+
+    /**
+     * 注册功能
+     *
+     * @param userAdminParam
+     * @return
+     */
+    User register(UserAdminParam userAdminParam);
 }

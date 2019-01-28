@@ -2,7 +2,9 @@ package com.lin.cms.admin.controller;
 
 import com.lin.cms.admin.dto.CommonResult;
 import com.lin.cms.admin.dto.UserAdminLoginParam;
+import com.lin.cms.admin.dto.UserAdminParam;
 import com.lin.cms.admin.service.UserAdminService;
+import com.lin.cms.mbg.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,14 @@ public class UserAdminController {
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
         return new CommonResult().success(tokenMap);
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ResponseBody
+    public Object register(@RequestBody UserAdminParam param) {
+        User user = userAdminService.register(param);
+        if (user == null) return new CommonResult().failed();
+        return new CommonResult().success(user);
     }
 
 }
