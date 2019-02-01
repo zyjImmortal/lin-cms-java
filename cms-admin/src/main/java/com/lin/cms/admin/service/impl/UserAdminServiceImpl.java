@@ -47,15 +47,19 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public String login(String username, String password) {
         String token = null;
+        System.out.println(password);
+
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
-                    passwordEncoder.encode(password));
+                    password);
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
+//            System.out.println(authentication.toString());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             token = jwtTokenUtil.generateToken(userDetails.getUsername());
 
         } catch (AuthenticationException e) {
+            e.printStackTrace();
             LOGGER.info("登录异常:{}", e.getMessage());
         }
         return token;

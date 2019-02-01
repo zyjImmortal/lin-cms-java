@@ -49,6 +49,6 @@ public class UserAdminDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return admin.getActive().equals(1);
     }
 }

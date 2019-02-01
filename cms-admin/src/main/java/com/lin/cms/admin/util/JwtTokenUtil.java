@@ -36,7 +36,7 @@ public class JwtTokenUtil {
     private String generateToken(Map<String, Object> claims) {
         return Jwts.builder().setClaims(claims)
                 .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.ES512, secret).compact();
+                .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
     private Date generateExpirationDate() {
