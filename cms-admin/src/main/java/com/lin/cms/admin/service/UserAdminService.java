@@ -1,6 +1,7 @@
 package com.lin.cms.admin.service;
 
 import com.lin.cms.admin.dto.UserAdminParam;
+import com.lin.cms.admin.dto.UserInfoParam;
 import com.lin.cms.mbg.model.User;
 
 /**
@@ -25,4 +26,17 @@ public interface UserAdminService {
      * @return
      */
     User register(UserAdminParam userAdminParam);
+
+    /**
+     * 更新用户信息
+     * @param userInfoParam
+     * @return
+     */
+    User update(UserInfoParam userInfoParam);
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    User getUserInfomation();
 }

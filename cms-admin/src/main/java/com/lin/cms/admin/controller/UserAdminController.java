@@ -3,6 +3,7 @@ package com.lin.cms.admin.controller;
 import com.lin.cms.admin.dto.CommonResult;
 import com.lin.cms.admin.dto.UserAdminLoginParam;
 import com.lin.cms.admin.dto.UserAdminParam;
+import com.lin.cms.admin.dto.UserInfoParam;
 import com.lin.cms.admin.service.UserAdminService;
 import com.lin.cms.mbg.model.User;
 import org.slf4j.Logger;
@@ -52,8 +53,23 @@ public class UserAdminController {
     @ResponseBody
     public Object register(@RequestBody UserAdminParam param) {
         User user = userAdminService.register(param);
-        if (user == null) return new CommonResult().failed();
+        if (user == null) {
+            return new CommonResult().failed();
+        }
         return new CommonResult().success(user);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object update(@RequestBody UserInfoParam param){
+        User user = userAdminService.update(param);
+        return user != null ? new CommonResult().success(user) : new CommonResult().failed();
+    }
+
+    @RequestMapping(value = "/information", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getInformation(){
+        return userAdminService.getUserInfomation();
     }
 
 }

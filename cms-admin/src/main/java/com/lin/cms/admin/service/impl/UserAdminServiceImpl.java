@@ -1,6 +1,7 @@
 package com.lin.cms.admin.service.impl;
 
 import com.lin.cms.admin.dto.UserAdminParam;
+import com.lin.cms.admin.dto.UserInfoParam;
 import com.lin.cms.admin.service.UserAdminService;
 import com.lin.cms.admin.util.JwtTokenUtil;
 import com.lin.cms.mbg.mapper.UserMapper;
@@ -17,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
@@ -50,10 +52,13 @@ public class UserAdminServiceImpl implements UserAdminService {
         System.out.println(password);
 
         try {
+            // 根据userdetailes用户信息构建安全对象
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
                     password);
+//            通过authenticationManager中提供的Prodiver对安全对象进行认证
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 //            System.out.println(authentication.toString());
+//            将认证对象添加到安全管理的上下文
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             token = jwtTokenUtil.generateToken(userDetails.getUsername());
@@ -86,10 +91,35 @@ public class UserAdminServiceImpl implements UserAdminService {
         UserExample example = new UserExample();
         example.createCriteria().andNicknameEqualTo(user.getNickname());
         List<User> userList = userMapper.selectByExample(example);
-        if (userList.size() > 0) return null;
+        if (userList.size() > 0) {
+            return null;
+        } ;
         String md5Password = passwordEncoder.encode(user.getPassword());
         user.setPassword(md5Password);
         userMapper.insert(user);
+        return user;
+    }
+
+    @Override
+    public User update(UserInfoParam userInfoParam){
+        UserExample example = new UserExample();
+        example.createCriteria().andEmailEqualTo(userInfoParam.getEmail());
+        List<User> users = userMapper.selectByExample(example);
+        if (users.isEmpty()){
+            throw new UsernameNotFoundException("用户不存在=>email:" + userInfoParam.getEmail());
+        }
+        User user = users.get(0);
+        user.setEmail(userInfoParam.getEmail());
+        user.setUpdateTime(new Date());
+        userMapper.updateByExample(user, example);
+        return user;
+    }
+
+    @Override
+    public User getUserInfomation(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = (String) authentication.getCredentials();
+        User user = this.getAdminByUsername(username);
         return user;
     }
 }
