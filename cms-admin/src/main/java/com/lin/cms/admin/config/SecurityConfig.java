@@ -4,7 +4,7 @@ import com.lin.cms.admin.Component.JwtAuthenticationTokenFilter;
 import com.lin.cms.admin.Component.RestfulAccessDeniedHandler;
 import com.lin.cms.admin.Component.RestfulAuthenticationEntryPoint;
 import com.lin.cms.admin.bo.UserAdminDetails;
-import com.lin.cms.admin.service.UserAdminService;
+import com.lin.cms.admin.service.UserService;
 import com.lin.cms.mbg.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -34,7 +33,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserAdminService userAdminService;
+    private UserService userService;
 
     @Autowired
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
@@ -89,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            User admin = userAdminService.getAdminByUsername(username);
+            User admin = userService.getAdminByUsername(username);
             if (admin != null) {
                 return new UserAdminDetails(admin);
             }

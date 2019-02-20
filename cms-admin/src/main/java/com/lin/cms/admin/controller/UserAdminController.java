@@ -4,7 +4,7 @@ import com.lin.cms.admin.dto.CommonResult;
 import com.lin.cms.admin.dto.UserAdminLoginParam;
 import com.lin.cms.admin.dto.UserAdminParam;
 import com.lin.cms.admin.dto.UserInfoParam;
-import com.lin.cms.admin.service.UserAdminService;
+import com.lin.cms.admin.service.UserService;
 import com.lin.cms.mbg.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ import java.util.Map;
 public class UserAdminController {
 
     @Autowired
-    private UserAdminService userAdminService;
+    private UserService userService;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
@@ -38,7 +38,7 @@ public class UserAdminController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Object login(@RequestBody UserAdminLoginParam param, BindingResult result) {
-        String token = userAdminService.login(param.getUsername(), param.getPassword());
+        String token = userService.login(param.getUsername(), param.getPassword());
         LOGGER.info("token: {}", token);
         if (token == null) {
             return new CommonResult().validateFailed("用户名或密码错误");
@@ -52,7 +52,7 @@ public class UserAdminController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public Object register(@RequestBody UserAdminParam param) {
-        User user = userAdminService.register(param);
+        User user = userService.register(param);
         if (user == null) {
             return new CommonResult().failed();
         }
@@ -62,14 +62,14 @@ public class UserAdminController {
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     @ResponseBody
     public Object update(@RequestBody UserInfoParam param){
-        User user = userAdminService.update(param);
+        User user = userService.update(param);
         return user != null ? new CommonResult().success(user) : new CommonResult().failed();
     }
 
     @RequestMapping(value = "/information", method = RequestMethod.GET)
     @ResponseBody
     public Object getInformation(){
-        return userAdminService.getUserInfomation();
+        return userService.getUserInfomation();
     }
 
 }

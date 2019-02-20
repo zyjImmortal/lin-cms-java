@@ -7,7 +7,7 @@ import com.lin.cms.mbg.model.User;
 /**
  * Created by zhouyajun on 2019/1/21
  */
-public interface UserAdminService {
+public interface UserService {
 
     /**
      * d登录功能

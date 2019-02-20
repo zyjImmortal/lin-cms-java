@@ -2,7 +2,7 @@ package com.lin.cms.admin.service.impl;
 
 import com.lin.cms.admin.dto.UserAdminParam;
 import com.lin.cms.admin.dto.UserInfoParam;
-import com.lin.cms.admin.service.UserAdminService;
+import com.lin.cms.admin.service.UserService;
 import com.lin.cms.admin.util.JwtTokenUtil;
 import com.lin.cms.mbg.mapper.UserMapper;
 import com.lin.cms.mbg.model.User;
@@ -20,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -30,7 +29,7 @@ import java.util.List;
  * Created by zhouyajun on 2019/1/21
  */
 @Service
-public class UserAdminServiceImpl implements UserAdminService {
+public class UserServiceImpl implements UserService {
 
 
     @Autowired
@@ -44,7 +43,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserAdminServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public String login(String username, String password) {
